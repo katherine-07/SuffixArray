@@ -6,20 +6,23 @@ import java.util.Arrays;
 import reader.TextReader;
 
 public class SuffixArrayS {
-	private static ArrayList<Integer> ARR = new ArrayList<Integer>();
-	private static ArrayList<Integer> A = new ArrayList<Integer>();
-	private static ArrayList<Integer> C = new ArrayList<Integer>();
-	private static ArrayList<Integer> G = new ArrayList<Integer>();
-	private static ArrayList<Integer> T = new ArrayList<Integer>();
-	private static ArrayList<Integer> S = new ArrayList<Integer>();
-	
-	private static TextReader reader = new TextReader();
-	public static final String fileName = "input.txt";
-	private static String input = reader.read(fileName);
+//	private static TextReader reader = new TextReader();
+//	public static final String fileName = "input.txt";
+//	private static String input = reader.read(fileName);
 
+	public static ArrayList<Integer> buildSuffixArray(String input) {
+		
 	
-	public static void main(String[] args) {
-		System.out.println("I" + Integer.MAX_VALUE);
+		
+		ArrayList<Integer> ARR = new ArrayList<Integer>();
+		ArrayList<Integer> A = new ArrayList<Integer>();
+		ArrayList<Integer> C = new ArrayList<Integer>();
+		ArrayList<Integer> G = new ArrayList<Integer>();
+		ArrayList<Integer> T = new ArrayList<Integer>();
+		ArrayList<Integer> S = new ArrayList<Integer>();
+		
+		
+		
 		for(int i = 0; i < input.length(); i++) {
 		    if(input.charAt(i)=='A' || input.charAt(i)=='a'){
 		    	A.add(i);
@@ -34,10 +37,10 @@ public class SuffixArrayS {
 		    }
 		}
 
-		A = sort(A, 2);
-		C = sort(C, 2);
-		G = sort(G, 2);
-		T = sort(T, 2);
+		A = sort(A, 2, input);
+		C = sort(C, 2, input);
+		G = sort(G, 2, input);
+		T = sort(T, 2, input);
 		
 		ARR.addAll(S);
 		ARR.addAll(A);
@@ -45,12 +48,14 @@ public class SuffixArrayS {
 		ARR.addAll(G);
 		ARR.addAll(T);
 		
-		for(int i = 0; i< ARR.size(); i++) {
-			System.out.println(ARR.get(i));
-		}
+		return ARR ; 
 	}
 	
-	public static ArrayList<Integer> sort(ArrayList<Integer> list, int splitDivisor)
+	public static String RANDOMIZE(int n) {
+		return "";
+	}
+	
+	public static ArrayList<Integer> sort(ArrayList<Integer> list, int splitDivisor, String input)
     {
     	if(list.size() <= 1) {
     		return list;
@@ -58,15 +63,15 @@ public class SuffixArrayS {
     		ArrayList<Integer> list1 = new ArrayList<Integer> (list.subList(0, list.size()/splitDivisor));
     		ArrayList<Integer> list2 = new ArrayList<Integer> (list.subList((list.size()/splitDivisor), list.size()));
     		
-    		list1 = sort(list1, splitDivisor);
-    		list2 = sort(list2, splitDivisor);
+    		list1 = sort(list1, splitDivisor, input);
+    		list2 = sort(list2, splitDivisor, input);
     		
-    		return merge(list1, list2);
+    		return merge(list1, list2, input);
     	}
     	
     }
 	
-	private static ArrayList<Integer> merge(ArrayList<Integer> list1, ArrayList<Integer> list2) {
+	private static ArrayList<Integer> merge(ArrayList<Integer> list1, ArrayList<Integer> list2, String input) {
 
 		ArrayList<Integer> merged = new ArrayList<Integer>();
 		int i = 0, j = 0;
@@ -80,7 +85,7 @@ public class SuffixArrayS {
 				merged.add(list2.get(j));
 				j++;
 			} else if (input.charAt(list1.get(i)+1) == input.charAt(list2.get(j)+1)){
-				if(checkEqual(list1.get(i)+1, list2.get(j)+1) == list1.get(i)) {
+				if(checkEqual(list1.get(i)+1, list2.get(j)+1, input) == list1.get(i)) {
 					merged.add(list1.get(i));	
 					i++;
 				}else {
@@ -107,7 +112,7 @@ public class SuffixArrayS {
 	    return merged;
 	}
 	
-	private static int checkEqual(int l1, int l2) {
+	private static int checkEqual(int l1, int l2, String input) {
 		int a = l1;
 		int b = l2;
 		int ans = 0; 
